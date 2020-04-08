@@ -4,61 +4,65 @@ import io.cucumber.java.ru.*;
 import net.bytebuddy.matcher.ElementMatcher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import ru.lanit.atschool.pages.MainPage;
 import ru.lanit.atschool.webdriver.WebDriverManager;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
 
 public class MainPageSteps {
     WebDriver driver = WebDriverManager.getDriver();
+    MainPage page = new MainPage();
 
     @Пусть("открыт браузер и введен адрес \"(.*)\"$")
     public void openedBrowserAndEnteredUrl(String url) {
-        driver.get(url);
+        page.openPage(url);
     }
 
     @И("проверяет, что находится на главной странице")
     public void checkMainPage() {
-        driver.findElement(By.tagName("h1")).isDisplayed();
-        assertThat(driver.findElement(By.tagName("h1")).getText(), is("Lanit education"));
+        page.headlineMainPage.isDisplayed();
+//        driver.findElement(By.tagName("h1")).isDisplayed();
+        assertThat(page.headlineMainPage.getText(), is("Lanit education"));
+//        assertThat(driver.findElement(By.tagName("h1")).getText(), is("Lanit education"));
     }
 
     @И("переходит на страницу Категории")
     public void goOnPageCategories() {
-        driver.findElement(By.linkText("Категории")).click();
+        page.pageCategories.click();
     }
 
     @И("проверяет, что находится на странице категорий")
     public void checkPageCategories() {
-        driver.findElement(By.xpath("//*[@id='categories-mount']")).isDisplayed();
-        assertThat(driver.findElement(By.tagName("h1")).getText(), is("Категории"));
+        page.headlinePageCategories.isDisplayed();
+        assertThat(page.headlinePageCategories.getText(), is("Категории"));
     }
 
     @И("переходит на страницу Пользователи")
     public void goOnPageUsers() {
-        driver.findElement(By.linkText("Пользователи")).click();
+        page.pageUsers.click();
     }
 
     @И("проверяет, что находится на странице пользователи")
     public void checkPageUsers() {
-        driver.findElement(By.xpath("//*[@id='page-mount']")).isDisplayed();
-        assertThat(driver.findElement(By.tagName("h1")).getText(), is("Пользователи"));
+        page.headlinePageUsers.isDisplayed();
+        assertThat(page.headlinePageUsers.getText(), is("Пользователи"));
     }
 
     @И("вводит в поле поиск \"(.*)\"$")
     public void enterSearchName(String arg3) {
-        driver.findElement(By.xpath("//*[@id='user-menu-mount']/div/div/div")).click();
-        driver.findElement(By.xpath("//*[@id='user-menu-mount']//input")).isDisplayed();
-        driver.findElement(By.xpath("//*[@id='user-menu-mount']//input")).sendKeys(arg3);
+        page.openSearch.click();
+        page.inputSearch.isDisplayed();
+        page.inputSearch.sendKeys(arg3);
     }
 
     @И("проверяет, что пользователь {string} с таким именем найден")
     public void checkFoundUser(String name) {
-        driver.findElement(By.xpath("//*[@id='user-menu-mount']//li[3]//div[2]/h5")).isDisplayed();
-        assertThat(driver.findElement(By.tagName("h5")).getText(), is(name));
+        page.checkFoundUser.isDisplayed();
+        assertThat(page.checkFoundUser.getText(), is(name));
     }
 
     @Тогда("тест завершен")
-    public void тестЗавершен() {
+    public void testEnd() {
         driver.quit();
     }
     private void assertThat(String h1, ElementMatcher.Junction<Object> lanit_education) {
