@@ -21,9 +21,7 @@ public class MainPageSteps {
     @И("проверяет, что находится на главной странице")
     public void checkMainPage() {
         page.headlineMainPage.isDisplayed();
-//        driver.findElement(By.tagName("h1")).isDisplayed();
         assertThat(page.headlineMainPage.getText(), is("Lanit education"));
-//        assertThat(driver.findElement(By.tagName("h1")).getText(), is("Lanit education"));
     }
 
     @И("переходит на страницу Категории")
