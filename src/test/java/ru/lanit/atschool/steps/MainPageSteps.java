@@ -1,8 +1,8 @@
 package ru.lanit.atschool.steps;
 
+import io.cucumber.java.After;
 import io.cucumber.java.ru.*;
 import net.bytebuddy.matcher.ElementMatcher;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import ru.lanit.atschool.pages.MainPage;
 import ru.lanit.atschool.webdriver.WebDriverManager;
@@ -59,10 +59,11 @@ public class MainPageSteps {
         assertThat(page.checkFoundUser.getText(), is(name));
     }
 
-    @Тогда("тест завершен")
+    @After
     public void testEnd() {
         driver.quit();
     }
+
     private void assertThat(String h1, ElementMatcher.Junction<Object> lanit_education) {
     }
 }
