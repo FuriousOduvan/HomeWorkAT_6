@@ -6,14 +6,11 @@ import io.qameta.allure.Attachment;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
 import net.bytebuddy.matcher.ElementMatcher;
-import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
 import ru.lanit.atschool.pages.MainPage;
 import ru.lanit.atschool.webdriver.WebDriverManager;
-
-import java.io.File;
-import java.nio.file.Files;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
 
@@ -32,6 +29,7 @@ public class MainPageSteps {
     @И("проверяет, что находится на главной странице")
     public void checkMainPage() {
         page.headlineMainPage.isDisplayed();
+        screenshot();
         assertThat(page.headlineMainPage.getText(), is("Lanit education"));
     }
 
@@ -45,6 +43,7 @@ public class MainPageSteps {
     @И("проверяет, что находится на странице категорий")
     public void checkPageCategories() {
         page.headlinePageCategories.isDisplayed();
+        screenshot();
         assertThat(page.headlinePageCategories.getText(), is("Категории"));
     }
 
@@ -58,6 +57,7 @@ public class MainPageSteps {
     @И("проверяет, что находится на странице пользователи")
     public void checkPageUsers() {
         page.headlinePageUsers.isDisplayed();
+        screenshot();
         assertThat(page.headlinePageUsers.getText(), is("Пользователи"));
     }
 
@@ -67,12 +67,14 @@ public class MainPageSteps {
         page.openSearch.click();
         page.inputSearch.isDisplayed();
         page.inputSearch.sendKeys(arg3);
+        screenshot();
     }
 
     @Step("проверяет, что пользователь с таким именем найден")
     @И("проверяет, что пользователь {string} с таким именем найден")
     public void checkFoundUser(String name) {
         page.checkFoundUser.isDisplayed();
+        screenshot();
         assertThat(page.checkFoundUser.getText(), is(name));
     }
 
@@ -81,9 +83,10 @@ public class MainPageSteps {
         driver.quit();
     }
 
-    @Attachment(value = "Скриншот", type = "image/png")
-    public byte[] saveScreenchot(byte[] screenShot){return screenShot;}
-
+    @Attachment(value = "Screenshot", type = "image/png")
+    public byte[] screenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
 
     private void assertThat(String h1, ElementMatcher.Junction<Object> lanit_education) {
     }
